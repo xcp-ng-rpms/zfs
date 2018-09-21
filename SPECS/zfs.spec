@@ -84,7 +84,7 @@
 %endif
 
 Name:           zfs
-Version:        0.7.9
+Version:        0.7.11
 Release:        1%{?dist}
 Summary:        Commands to control the kernel modules and libraries
 
@@ -211,7 +211,10 @@ Requires:       acl
 Requires:       sudo
 Requires:       sysstat
 Requires:       rng-tools
-Requires:	libaio
+Requires:       libaio
+%if 0%{?rhel}%{?fedora}%{?suse_version}
+BuildRequires:  libaio-devel
+%endif
 AutoReqProv:    no
 
 %description test
@@ -223,6 +226,8 @@ Summary:        Dracut module
 Group:          System Environment/Kernel
 Requires:       %{name}%{?_isa} = %{version}-%{release}
 Requires:       dracut
+Requires:       /usr/bin/awk
+Requires:       grep
 
 %description dracut
 This package contains a dracut module used to construct an initramfs
@@ -381,6 +386,12 @@ systemctl --system daemon-reload >/dev/null || true
 %endif
 
 %changelog
+* Thu Sep 13 2018 Tony Hutter <hutter2@llnl.gov> - 0.7.11-1
+- Released 0.7.11-1, detailed release notes are available at:
+- https://github.com/zfsonlinux/zfs/releases/tag/zfs-0.7.11
+* Wed Sep 05 2018 Tony Hutter <hutter2@llnl.gov> - 0.7.10-1
+- Released 0.7.10-1, detailed release notes are available at:
+- https://github.com/zfsonlinux/zfs/releases/tag/zfs-0.7.10
 * Tue May 08 2018 Tony Hutter <hutter2@llnl.gov> - 0.7.9-1
 - Released 0.7.9-1, detailed release notes are available at:
 - https://github.com/zfsonlinux/zfs/releases/tag/zfs-0.7.9
