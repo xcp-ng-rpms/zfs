@@ -1,5 +1,5 @@
 # XCP-ng notice: this spec file and the associated source come from
-# the spl source RPM created out of the spl upstream build scripts.
+# the zfs source RPM created out of the zfs upstream build scripts.
 # The 'upstream' branch of this repository contains the unmodified
 # spec file and sources from that source RPM.
 # It was produced this way:
@@ -9,6 +9,8 @@
 # - make sure sources for spl are available at ../spl (rename dir or add symlink)
 # - ./configure
 # - make srpms
+# - import_srpm.py /path/to/zfs-VERSION-RELEASE.src.rpm . upstream upstream upstream-VERSION -cp
+# - merge upstream-VERSION to master
 
 %global _sbindir    /sbin
 %global _libdir     /%{_lib}
