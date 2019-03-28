@@ -105,6 +105,7 @@ Provides:       %{name}-kmod-common = %{version}
 # those on either side would conflict with all available documentation.
 Conflicts:      zfs-fuse
 
+BuildRequires:  gcc
 %if 0%{?rhel}%{?fedora}%{?suse_version}
 BuildRequires:  zlib-devel
 BuildRequires:  libuuid-devel
