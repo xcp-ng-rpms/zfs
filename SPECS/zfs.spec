@@ -84,7 +84,7 @@
 %endif
 
 Name:           zfs
-Version:        0.7.11
+Version:        0.7.13
 Release:        1%{?dist}
 Summary:        Commands to control the kernel modules and libraries
 
@@ -107,6 +107,7 @@ Conflicts:      zfs-fuse
 
 BuildRequires:  gcc
 %if 0%{?rhel}%{?fedora}%{?suse_version}
+BuildRequires:  gcc, make
 BuildRequires:  zlib-devel
 BuildRequires:  libuuid-devel
 BuildRequires:  libblkid-devel
@@ -298,6 +299,15 @@ fi
 %endif
 exit 0
 
+# On RHEL/CentOS 7 the static nodes aren't refreshed by default after
+# installing a package.  This is the default behavior for Fedora.
+%posttrans
+%if 0%{?rhel} == 7 || 0%{?centos} == 7
+systemctl restart kmod-static-nodes
+systemctl restart systemd-tmpfiles-setup-dev
+udevadm trigger
+%endif
+
 %preun
 %if 0%{?_systemd}
 %if 0%{?systemd_preun:1}
@@ -387,6 +397,12 @@ systemctl --system daemon-reload >/dev/null || true
 %endif
 
 %changelog
+* Fri Feb 22 2019 Tony Hutter <hutter2@llnl.gov> - 0.7.13-1
+- Released 0.7.13-1, detailed release notes are available at:
+- https://github.com/zfsonlinux/zfs/releases/tag/zfs-0.7.13
+* Thu Nov 08 2018 Tony Hutter <hutter2@llnl.gov> - 0.7.12-1
+- Released 0.7.12-1, detailed release notes are available at:
+- https://github.com/zfsonlinux/zfs/releases/tag/zfs-0.7.12
 * Thu Sep 13 2018 Tony Hutter <hutter2@llnl.gov> - 0.7.11-1
 - Released 0.7.11-1, detailed release notes are available at:
 - https://github.com/zfsonlinux/zfs/releases/tag/zfs-0.7.11
