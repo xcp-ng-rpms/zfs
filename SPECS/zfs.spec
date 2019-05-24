@@ -4,14 +4,15 @@
 # spec file and sources from that source RPM.
 # It was produced this way:
 # - start xcp-ng-build-env
-# - download latest release of spl and zfs at https://github.com/zfsonlinux/zfs/releases
-# - install zlib-devel libuuid-devel libblkid-devel libudev-devel libattr-devel kernel-devel
-# - make sure sources for spl are available at ../spl (rename dir or add symlink)
+# - download latest release of zfs at https://github.com/zfsonlinux/zfs/releases
+# - sudo yum install zlib-devel libuuid-devel libblkid-devel libudev-devel libattr-devel openssl-devel libselinux-devel elfutils-libelf-devel
+# - sudo yum install kernel-devel autoconf automake libtool
+# - sh autogen.sh
 # - ./configure
 # - make srpms
 # How to import the SRPM:
 # - import_srpm.py /path/to/zfs-VERSION-RELEASE.src.rpm . upstream upstream upstream-VERSION -cp
-# - merge upstream-VERSION to master
+# - merge upstream-VERSION to master while retaining this header in the spec file
 
 %global _sbindir    /sbin
 %global _libdir     /%{_lib}
