@@ -109,7 +109,7 @@
 %endif
 
 Name:           zfs
-Version:        0.8.0
+Version:        0.8.1
 Release:        1%{?dist}
 Summary:        Commands to control the kernel modules and libraries
 
