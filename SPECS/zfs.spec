@@ -4,7 +4,7 @@
 # spec file and sources from that source RPM.
 # It was produced this way:
 # - start xcp-ng-build-env
-# - download latest release of zfs at https://github.com/zfsonlinux/zfs/releases
+# - download latest source release of zfs at https://github.com/zfsonlinux/zfs/releases
 # - sudo yum install zlib-devel libuuid-devel libblkid-devel libudev-devel libattr-devel openssl-devel libselinux-devel elfutils-libelf-devel
 # - sudo yum install kernel-devel autoconf automake libtool
 # - sh autogen.sh
