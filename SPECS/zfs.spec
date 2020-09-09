@@ -122,8 +122,8 @@
 %endif
 
 Name:           zfs
-Version:        0.8.3
-Release:        1.1%{?dist}
+Version:        0.8.4
+Release:        1%{?dist}
 Summary:        Commands to control the kernel modules and libraries
 
 Group:          System Environment/Kernel
