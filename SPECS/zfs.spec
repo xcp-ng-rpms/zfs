@@ -122,7 +122,7 @@
 %endif
 
 Name:           zfs
-Version:        0.8.4
+Version:        0.8.5
 Release:        1%{?dist}
 Summary:        Commands to control the kernel modules and libraries
 
@@ -487,8 +487,8 @@ systemctl --system daemon-reload >/dev/null || true
 %{_libdir}/libzfs*.so.*
 
 %files -n libzfs2-devel
-%{_datarootdir}/pkgconfig/libzfs.pc
-%{_datarootdir}/pkgconfig/libzfs_core.pc
+%{_libdir}/pkgconfig/libzfs.pc
+%{_libdir}/pkgconfig/libzfs_core.pc
 %{_libdir}/*.so
 %{_includedir}/*
 %doc AUTHORS COPYRIGHT LICENSE NOTICE README.md
