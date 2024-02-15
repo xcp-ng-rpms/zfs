@@ -1,0 +1,25 @@
+From 2f0c44698a4e936990ecc378a2ee8d05fe4fff1a Mon Sep 17 00:00:00 2001
+From: Guillaume <guillaume.thouvenin@vates.tech>
+Date: Thu, 15 Feb 2024 15:28:40 +0100
+Subject: [PATCH] check that FALLOC_FL_PUNCH_HOLE is defined
+
+---
+ module/os/linux/zfs/vdev_file.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/module/os/linux/zfs/vdev_file.c b/module/os/linux/zfs/vdev_file.c
+index 98338e6..c15a0a2 100644
+--- a/module/os/linux/zfs/vdev_file.c
++++ b/module/os/linux/zfs/vdev_file.c
+@@ -283,7 +283,7 @@ vdev_file_io_start(zio_t *zio)
+ 		int mode = 0;
+ 
+ 		ASSERT3U(zio->io_size, !=, 0);
+-#ifdef __linux__
++#if defined(__linux__) && defined(FALLOC_FL_PUNCH_HOLE)
+ 		mode = FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE;
+ #endif
+ 		zio->io_error = zfs_file_fallocate(vf->vf_file,
+-- 
+2.43.0
+

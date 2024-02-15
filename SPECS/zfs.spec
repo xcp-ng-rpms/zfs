@@ -15,6 +15,7 @@
 # - merge upstream-VERSION to master while retaining this header in the spec file
 
 %global _sbindir    /sbin
+%global _bindir     /bin
 %global _libdir     /%{_lib}
 
 # Set the default udev directory based on distribution.
@@ -94,7 +95,7 @@
 # When not specified default to distribution provided version.  This
 # is normally Python 3, but for RHEL <= 7 only Python 2 is provided.
 %if %{undefined __use_python}
-%if 0%{?rhel} && 0%{?rhel} <= 7
+%if 0%{?rhel} && 0%{?rhel} < 7
 %define __python                  /usr/bin/python2
 %define __python_pkg_version      2
 %define __python_cffi_pkg         python-cffi
@@ -102,7 +103,7 @@
 %else
 %define __python                  /usr/bin/python3
 %define __python_pkg_version      3
-%define __python_cffi_pkg         python3-cffi
+%define __python_cffi_pkg         python36-cffi
 %define __python_setuptools_pkg   python3-setuptools
 %endif
 %else
@@ -122,7 +123,7 @@
 %endif
 
 Name:           zfs
-Version:        0.8.5
+Version:        2.1.14
 Release:        2%{?dist}
 Summary:        Commands to control the kernel modules and libraries
 
@@ -130,6 +131,7 @@ Group:          System Environment/Kernel
 License:        CDDL
 URL:            http://zfsonlinux.org/
 Source0:        %{name}-%{version}.tar.gz
+Patch:          0001-check-that-FALLOC_FL_PUNCH_HOLE-is-defined.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires:       libzpool2 = %{version}
 Requires:       libnvpair1 = %{version}
@@ -142,6 +144,9 @@ Obsoletes:      spl
 # zfs-fuse provides the same commands and man pages that ZoL does. Renaming
 # those on either side would conflict with all available documentation.
 Conflicts:      zfs-fuse
+
+BuildRequires: python3-devel
+BuildRequires: python36-distlib
 
 %if 0%{?rhel}%{?fedora}%{?suse_version}
 BuildRequires:  gcc, make
@@ -314,6 +319,7 @@ image which is ZFS aware.
 %endif
 
 %prep
+%autosetup -p1
 %if %{with debug}
     %define debug --enable-debug
 %else
@@ -345,7 +351,7 @@ image which is ZFS aware.
     %define pyzfs --disable-pyzfs
 %endif
 
-%setup -q
+#%setup -q
 
 %build
 %configure \
@@ -353,7 +359,6 @@ image which is ZFS aware.
     --with-udevdir=%{_udevdir} \
     --with-udevruledir=%{_udevruledir} \
     --with-dracutdir=%{_dracutdir} \
-    --with-python=%{__python} \
     --disable-static \
     %{debug} \
     %{debuginfo} \
@@ -437,8 +442,8 @@ systemctl --system daemon-reload >/dev/null || true
 %files
 # Core utilities
 %{_sbindir}/*
+#%{_sbindir}/zgenhostid
 %{_bindir}/raidz_test
-%{_bindir}/zgenhostid
 %{_bindir}/zvol_wait
 # Optional Python 2/3 scripts
 %{_bindir}/arc_summary
@@ -446,7 +451,9 @@ systemctl --system daemon-reload >/dev/null || true
 %{_bindir}/dbufstat
 # Man pages
 %{_mandir}/man1/*
+%{_mandir}/man4/*
 %{_mandir}/man5/*
+%{_mandir}/man7/*
 %{_mandir}/man8/*
 # Configuration files and scripts
 %{_libexecdir}/%{name}
@@ -489,6 +496,7 @@ systemctl --system daemon-reload >/dev/null || true
 %files -n libzfs2-devel
 %{_libdir}/pkgconfig/libzfs.pc
 %{_libdir}/pkgconfig/libzfs_core.pc
+%{_libdir}/pkgconfig/libzfsbootenv.pc
 %{_libdir}/*.so
 %{_includedir}/*
 %doc AUTHORS COPYRIGHT LICENSE NOTICE README.md
