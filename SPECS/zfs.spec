@@ -104,6 +104,10 @@ Group:          System Environment/Kernel
 License:        CDDL
 URL:            https://github.com/openzfs/zfs
 Source0:        %{name}-%{version}.tar.gz
+
+# XCP-ng patches
+Patch1001:      0001-check-that-FALLOC_FL_PUNCH_HOLE-is-defined.patch
+
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires:       libzpool5%{?_isa} = %{version}-%{release}
 Requires:       libnvpair3%{?_isa} = %{version}-%{release}
@@ -381,7 +385,7 @@ image which is ZFS aware.
     %define pam --disable-pam
 %endif
 
-%setup -q
+%autosetup -p1
 
 %build
 %configure \
