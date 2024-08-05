@@ -97,7 +97,7 @@
 
 Name:           zfs
 Version:        2.1.15
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Commands to control the kernel modules and libraries
 
 Group:          System Environment/Kernel
@@ -107,6 +107,7 @@ Source0:        %{name}-%{version}.tar.gz
 
 # XCP-ng patches
 Patch1001:      0001-check-that-FALLOC_FL_PUNCH_HOLE-is-defined.patch
+Patch1002:      zfs-2.1.15-break-multipathd-dependency-loop.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires:       libzpool5%{?_isa} = %{version}-%{release}
@@ -575,3 +576,11 @@ systemctl --system daemon-reload >/dev/null || true
 # ignore those files.
 %exclude /usr/share/initramfs-tools
 %endif
+
+%changelog
+* Mon Aug 05 2024 Yann Dirson <yann.dirson@vates.tech> 2.1.15-2
+- Remove dependency of zfs-import-cache.service against multipathd.service
+  to break a loop
+
+* Tue Feb 27 2024 Guillaume Thouvenin <guillaume.thouvenin@vates.tech> 2.1.15-1
+- Initial 2.1 packaging from upstream specfile
